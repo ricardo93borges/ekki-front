@@ -6,6 +6,8 @@ import Modal from "../../../components/modal/modal";
 import api from '../../../services/Api'
 import { storeBalance } from '../actions/index'
 //import {  } from '../styles/style.js';
+import ContactsForm from "../components/ContactsForm/ContacstForm";
+
 
 class Transactions extends Component {
 
@@ -13,7 +15,7 @@ class Transactions extends Component {
         super(props)
 
         this.state = {
-            modalDisplay: 'block'
+            modalDisplay: 'none'
         }
     }
 
@@ -49,8 +51,8 @@ class Transactions extends Component {
                 </section>
 
                 <Modal display={this.state.modalDisplay}>
-                    <TransactionForm 
-                        closeModal={() => this.setState({ modalDisplay: 'none' })}                     
+                    <ContactsForm
+                        closeModal={() => this.setState({ modalDisplay: 'none' })}
                         contacts={[{id:1, name:'Ricardo Borges'}]}
                     />
                 </Modal>

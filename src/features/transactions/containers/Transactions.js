@@ -14,7 +14,7 @@ class Transactions extends Component {
         super(props)
 
         this.state = {
-            modalDisplay: 'block'
+            modalDisplay: 'none'
         }
     }
 

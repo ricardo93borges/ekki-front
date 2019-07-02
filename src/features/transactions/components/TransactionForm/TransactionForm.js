@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
+import { PropTypes } from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 //import InputMask from 'react-input-mask';
 import { FormTitle } from "./style";

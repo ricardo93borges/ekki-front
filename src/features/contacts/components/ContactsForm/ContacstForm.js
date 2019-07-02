@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
+import { PropTypes } from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 //import InputMask from 'react-input-mask';
-import { FormTitle } from "./style";
+import { FormTitle, ContactRow, ContactItemWrapper, ContactItem, ContactName, ContactButtonWrapper} from "./style";
 
-class ContactForm extends Component {
+class ContactsForm extends Component {
 
     constructor(props) {
         super(props)
@@ -24,7 +25,7 @@ class ContactForm extends Component {
                 <FormTitle>Adicionar contatos</FormTitle>
 
                 { this.props.contacts.map( contact => {            
-                    <ContactRow className='row'>
+                    return (<ContactRow className='row'>
                         <ContactItemWrapper className='column'>
                             <ContactItem className='column float-left'>
                                 <ContactName className='column column-50 float-left'>{contact.name}</ContactName>
@@ -37,7 +38,7 @@ class ContactForm extends Component {
                                 </ContactButtonWrapper>
                             </ContactItem>
                         </ContactItemWrapper>
-                    </ContactRow>
+                    </ContactRow>)
                 })}
 
                 <div className='row'>
@@ -51,10 +52,10 @@ class ContactForm extends Component {
     }
 }
 
-ContactForm.propTypes = {
+ContactsForm.propTypes = {
     contacts: PropTypes.array,
     closeModal: PropTypes.func,
     add: PropTypes.func,
 }
 
-export default ContactForm;
+export default ContactsForm;
