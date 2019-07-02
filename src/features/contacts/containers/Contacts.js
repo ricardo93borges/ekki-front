@@ -4,12 +4,12 @@ import { PropTypes } from 'prop-types'
 import '../styles/style.js'
 import Modal from "../../../components/modal/modal";
 import api from '../../../services/Api'
-import { storeBalance } from '../actions/index'
+import { storeContacts, storeUsers } from '../actions/index'
 //import {  } from '../styles/style.js';
 import ContactsForm from "../components/ContactsForm/ContacstForm";
 
 
-class Transactions extends Component {
+class Contacts extends Component {
 
     constructor(props) {
         super(props)
@@ -17,6 +17,14 @@ class Transactions extends Component {
         this.state = {
             modalDisplay: 'none'
         }
+    }
+
+    componentDidMount(){
+        if(this.props.contacts.length === 0)
+            this.props.getContacts(this.props.user.id)
+        
+        if(this.props.users.length === 0)
+            this.props.getUsers(this.props.user.id)
     }
 
     render() {
@@ -53,7 +61,7 @@ class Transactions extends Component {
                 <Modal display={this.state.modalDisplay}>
                     <ContactsForm
                         closeModal={() => this.setState({ modalDisplay: 'none' })}
-                        contacts={[{id:1, name:'Ricardo Borges'}]}
+                        users={this.props.users}
                     />
                 </Modal>
             </>
@@ -61,25 +69,42 @@ class Transactions extends Component {
     }
 }
 
-const getBalance = async () => {
-
+const getContacts = async (userId, dispatch) => {
+    api.get(`/contacts/${userId}/1`).then( res => {
+        dispatch(storeContacts(res.data.contacts))
+    })
 }
 
-const mapStateToProps = state => ({
-    balance: state.balance,
-})
+const getUsers = async (dispatch) => {
+    api.get(`/users`).then( res => {
+        dispatch(storeUsers(res.data))
+    })
+}
+
+const mapStateToProps = state => {
+    console.log(state)
+    return {contacts: state.contacts.contacts,
+    users: state.contacts.users,
+    user: state.user}
+}
 
 const mapDispatchToProps = dispatch => ({
-    getBalance: (userId) => getBalance(userId, dispatch),
-
+    getContacts: (userId) => getContacts(userId, dispatch),
+    getUsers: () => getUsers(dispatch),
 })
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(Transactions)
+)(Contacts)
 
-Transactions.propTypes = {
-    getBalance: PropTypes.func,
-    balance: PropTypes.object
+Contacts.propTypes = {
+    getContacts: PropTypes.func,
+    contacts: PropTypes.array,
+    users: PropTypes.array,
+}
+
+Contacts.defaultProps = {
+    contacts:[],
+    users:[],
 }

@@ -24,7 +24,7 @@ class ContactsForm extends Component {
             <>
                 <FormTitle>Adicionar contatos</FormTitle>
 
-                { this.props.contacts.map( contact => {            
+                { this.props.users.map( contact => {            
                     return (<ContactRow className='row'>
                         <ContactItemWrapper className='column'>
                             <ContactItem className='column float-left'>
@@ -53,7 +53,7 @@ class ContactsForm extends Component {
 }
 
 ContactsForm.propTypes = {
-    contacts: PropTypes.array,
+    users: PropTypes.array,
     closeModal: PropTypes.func,
     add: PropTypes.func,
 }
