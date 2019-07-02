@@ -49,23 +49,10 @@ class Transactions extends Component {
                 </section>
 
                 <Modal display={this.state.modalDisplay}>
-                    <h3 style={{ textAlign: 'center', borderBottom: '2px solid #9b4dca', marginBottom: -2 }}>Adicionar contatos</h3>
-
-                    <div className='row' style={{ padding: 10 }}>
-                        <div className='column' style={{ marginTop: 20 }}>                        
-                            <div className='column float-left' style={{ marginBottom: 5 }}>
-                                <div style={{ margin: 0, paddingTop: 5 }} className='column column-50 float-left'>Ricardo Borges</div>
-                                <div style={{ margin: 0 }} className='column column-50 float-right'><button style={{ margin: 0 }} className='float-right'>Adicionar</button></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='row'>
-                        <div className='column' style={{textAlign:'center'}}>
-                            <button className='button button-outline' onClick={() => this.setState({ modalDisplay: 'none' })}>Fechar</button>
-                        </div>
-                    </div>
-
-
+                    <TransactionForm 
+                        closeModal={() => this.setState({ modalDisplay: 'none' })}                     
+                        contacts={[{id:1, name:'Ricardo Borges'}]}
+                    />
                 </Modal>
             </>
         )
