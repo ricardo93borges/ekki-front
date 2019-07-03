@@ -43,9 +43,8 @@ class Transactions extends Component {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Data</th>
+                                    <th style={{ textAlign: 'center' }}>Para</th>
                                     <th>Valor</th>
-                                    <th>Para</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -53,9 +52,11 @@ class Transactions extends Component {
                                 {this.props.transactions.map(transaction => {
                                     return (
                                         <tr key={transaction.id}>
-                                            <td>{this.formatDate(transaction.createdAt)}</td>
-                                            <td>{transaction.amount}</td>
-                                            <td>{transaction.to_account.account.name}</td>
+                                            <td style={{ textAlign: 'center' }}>
+                                                <p style={{ marginBottom: 0 }}>{transaction.to_account.account.name}</p>
+                                                <small>{this.formatDate(transaction.createdAt)}</small>
+                                            </td>
+                                            <td>R$ {transaction.amount}</td>
                                             <td>{transaction.status.name}</td>
                                         </tr>
                                     )

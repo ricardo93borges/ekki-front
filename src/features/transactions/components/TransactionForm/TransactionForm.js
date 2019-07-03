@@ -11,7 +11,7 @@ class TransactionsForm extends Component {
         super(props)
 
         this.state = {
-            accountId: null,
+            accountId: 0,
             amount: 0,
             warnLimitUse: false,
             invalid: false,
@@ -55,7 +55,7 @@ class TransactionsForm extends Component {
 
     closeModal = () => {
         this.setState({
-            accountId: null,
+            accountId: 0,
             amount: 0,
             warnLimitUse: false,
             invalid: false,
@@ -108,6 +108,7 @@ class TransactionsForm extends Component {
 
                             <select
                                 defaultValue={0}
+                                value={this.state.accountId}
                                 id='select-contacts'
                                 onChange={e => this.setState({ accountId: e.target.value })}>
                                 <option disabled key={0} value={0}>

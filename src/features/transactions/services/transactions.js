@@ -9,7 +9,7 @@ export const getTransactions = async (accountId, dispatch) => {
 
 export const addTransaction = async (fromAccountId, toAccountId, amount, dispatch) => {
     api.post(`/transactions`, { fromAccountId, toAccountId, amount }).then(res => {
-        dispatch(actions.storeTransaction(res.data))
+        getTransactions(fromAccountId, dispatch)
     })
 }
 
