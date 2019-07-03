@@ -3,10 +3,8 @@ import { connect } from 'react-redux'
 import { PropTypes } from 'prop-types'
 import '../styles/style.js'
 import Modal from "../../../components/modal/modal";
-//import api from '../../../services/Api'
-//import { storeBalance } from '../actions/index'
-//import {  } from '../styles/style.js';
 import TransactionForm from '../components/TransactionForm/TransactionForm';
+import * as services from '../services/transactions'
 
 class Transactions extends Component {
 
@@ -16,6 +14,19 @@ class Transactions extends Component {
         this.state = {
             modalDisplay: 'none'
         }
+    }
+
+    addTransaction = (accountId, amount) => {
+        this.props.addTransaction(this.props.user.accountId, accountId, amount)
+    }
+
+    checkFunds = (amount) => {
+        return services.checkFunds(this.props.user.accountId, amount)
+    }
+
+    formatDate = (date) => {
+        let d = new Date(date)
+        return `${d.getDay()}/${d.getMonth()}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`
     }
 
     render() {
@@ -39,12 +50,17 @@ class Transactions extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>01/07/2019</td>
-                                    <td>R$ 50.00</td>
-                                    <td>Jon Snow</td>
-                                    <td>Concluído</td>
-                                </tr>
+                                {this.props.transactions.map(transaction => {
+                                    return (
+                                        <tr key={transaction.id}>
+                                            <td>{this.formatDate(transaction.createdAt)}</td>
+                                            <td>{transaction.amount}</td>
+                                            <td>{transaction.to_account.account.name}</td>
+                                            <td>{transaction.status.name}</td>
+                                        </tr>
+                                    )
+                                })}
+
                             </tbody>
                         </table>
                     </div>
@@ -53,9 +69,10 @@ class Transactions extends Component {
                 <Modal display={this.state.modalDisplay}>
                     <TransactionForm
                         closeModal={() => this.setState({ modalDisplay: 'none' })}
-                        processing={false}
                         warnLimitUse={false}
-                        contacts={[{ accountId: 1, name: 'Ricardo Borges' }]}
+                        contacts={this.props.contacts}
+                        addTransaction={this.addTransaction}
+                        checkFunds={this.checkFunds}
                     />
                 </Modal>
             </>
@@ -63,16 +80,18 @@ class Transactions extends Component {
     }
 }
 
-const getBalance = async () => {
-
+const mapStateToProps = state => {
+    console.log(state)
+    return {
+        user: state.user,
+        contacts: state.contacts.contacts,
+        transactions: state.transactions.transactions,
+    }
 }
 
-const mapStateToProps = state => ({
-    balance: state.balance,
-})
-
 const mapDispatchToProps = dispatch => ({
-    getBalance: (userId) => getBalance(userId, dispatch),
+    getTransactions: (userId) => services.getTransactions(userId, dispatch),
+    addTransaction: (fromAccountId, toAccountId, amount) => services.addTransaction(fromAccountId, toAccountId, amount, dispatch),
 
 })
 
@@ -82,6 +101,8 @@ export default connect(
 )(Transactions)
 
 Transactions.propTypes = {
-    getBalance: PropTypes.func,
-    balance: PropTypes.object
+    getTransactions: PropTypes.func,
+    addTransaction: PropTypes.func,
+    user: PropTypes.object,
+    contacts: PropTypes.array
 }

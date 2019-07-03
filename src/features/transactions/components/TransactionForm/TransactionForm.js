@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-//import InputMask from 'react-input-mask';
+import CurrencyInput from 'react-currency-input';
 import { FormTitle } from "./style";
 
 class TransactionsForm extends Component {
@@ -12,16 +12,58 @@ class TransactionsForm extends Component {
 
         this.state = {
             accountId: null,
-            amount: null
+            amount: 0,
+            warnLimitUse: false,
+            invalid: false,
+            limitUsage: 0,
+            insuficientFunds: false,
+            processing: false
         }
     }
 
     checkFunds = async () => {
-        console.log('checkFunds')
+
+        if (this.state.accountId === null) {
+            this.setState({ invalid: true })
+            return
+        } else {
+            this.setState({ invalid: false })
+        }
+
+        this.setState({ processing: true })
+        const funds = await this.props.checkFunds(this.state.amount)
+        this.setState({ processing: false })
+
+        if ((Number(funds.balance) + Number(funds.limit)) < this.state.amount) {
+            this.setState({ insuficientFunds: true })
+        } else if (funds.limitUsage > 0) {
+            this.setState({ warnLimitUse: true, limitUsage: funds.limitUsage })
+        } else {
+            this.send(this.state.accountId, this.state.amount)
+        }
     }
 
-    send = async () => {
-        console.log('send')
+    send = async (accountId, amount) => {
+        this.setState({ processing: true })
+        await this.props.addTransaction(accountId, amount)
+        this.closeModal()
+    }
+
+    handleAmountChange = (event, maskedvalue, amount) => {
+        this.setState({ amount })
+    }
+
+    closeModal = () => {
+        this.setState({
+            accountId: null,
+            amount: 0,
+            warnLimitUse: false,
+            invalid: false,
+            limitUsage: 0,
+            insuficientFunds: false,
+            processing: false
+        })
+        this.props.closeModal()
     }
 
     render() {
@@ -29,27 +71,71 @@ class TransactionsForm extends Component {
             <>
                 <FormTitle>Transferência</FormTitle>
 
-                {this.props.warnLimitUse ?
+                {this.state.invalid && <p style={{ color: '#F00', textAlign: 'center', fontSize: '0.8em' }}>SELECIONE UM CONTATO</p>}
+
+                {this.state.warnLimitUse &&
                     <div className='row'>
                         <div className='column'>
                             <p style={{ textAlign: 'center' }}>
-                                Será utilizado seu limite, pois você não possui
+                                Será utilizado R$ {this.state.limitUsage} do seu limite, pois você não possui
                                 saldo sufuciente para esta transação, deseja prosseguir?
                         </p>
-                            <button className='button button-outline float-left' onClick={() => this.props.closeModal()}>Cancelar</button>
-                            <button className='button float-right' onClick={() => this.send()} >Prosseguir</button>
+                            <button className='button button-outline float-left' onClick={() => this.closeModal()}>Cancelar</button>
+                            <button
+                                className='button float-right'
+                                onClick={() => this.send(this.state.accountId, this.state.amount)} >
+                                {this.state.processing ? <FontAwesomeIcon icon="spinner" size="lg" spin /> : 'Prosseguir'}
+                            </button>
                         </div>
                     </div>
-                    :
+                }
+
+                {this.state.insuficientFunds &&
                     <div className='row'>
                         <div className='column'>
-                            <label htmlFor='select-contacts'>Transferir para</label>
-                            <select id='select-contacts'>
-                                {this.props.contacts.map(contact => <option key={contact.accountId} value={contact.accountId}>{contact.name}</option>)}
+                            <p style={{ textAlign: 'center' }}>
+                                Você não possui saldo sucificiente para realizar esta transação.
+                            </p>
+                            <button className='button button-outline float-left' onClick={() => this.closeModal()}>Cancelar</button>
+                        </div>
+                    </div>
+                }
+
+                {(!this.state.warnLimitUse && !this.state.insuficientFunds) &&
+                    <div className='row'>
+                        <div className='column'>
+                            <label htmlFor='select-contacts'>Transferir para </label>
+
+                            <select
+                                defaultValue={0}
+                                id='select-contacts'
+                                onChange={e => this.setState({ accountId: e.target.value })}>
+                                <option disabled key={0} value={0}>
+                                    Selecione um contato
+                                </option>
+                                {this.props.contacts.map(contact => {
+                                    return (
+                                        <option
+                                            key={contact.id}
+                                            value={contact.contact.accountId}>
+                                            {contact.contact.name}
+                                        </option>
+                                    )
+                                })}
                             </select>
 
                             <label htmlFor='amount'>Valor</label>
-                            <input type="text" placeholder="00,00" id="amount" />
+
+                            <CurrencyInput
+                                value={this.state.amount}
+                                decimalSeparator="."
+                                thousandSeparator=","
+                                precision="2"
+                                prefix="R$ "
+                                maxLength='17'
+                                placeholder='00,00'
+                                onChangeEvent={(event, maskedvalue, floatvalue) => this.handleAmountChange(event, maskedvalue, floatvalue)}
+                            />
 
                             <button className='button button-outline float-left' onClick={() => this.props.closeModal()}>Cancelar</button>
                             <button className='button float-right' onClick={() => this.checkFunds()}>
@@ -64,10 +150,11 @@ class TransactionsForm extends Component {
 }
 
 TransactionsForm.propTypes = {
-    warnLimitUse: PropTypes.bool,
     processing: PropTypes.bool,
     contacts: PropTypes.array,
     closeModal: PropTypes.func,
+    checkFunds: PropTypes.func,
+    addTransaction: PropTypes.func,
 }
 
 export default TransactionsForm;

@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-//import InputMask from 'react-input-mask';
 import { FormTitle, ContactRow, ContactItemWrapper, ContactItem, ContactName, ContactButtonWrapper } from "./style";
 import AddButton from './AddButton'
 
@@ -17,7 +15,7 @@ class ContactsForm extends Component {
                     return (<ContactRow key={user.id} className='row'>
                         <ContactItemWrapper className='column'>
                             <ContactItem className='column float-left'>
-                                <ContactName className='column column-50 float-left'>{user.name}{user.id}</ContactName>
+                                <ContactName className='column column-50 float-left'>{user.name}</ContactName>
                                 <ContactButtonWrapper className='column column-50 float-right'>
                                     <AddButton id={user.id} add={(id) => this.props.addContact(id)} />
                                 </ContactButtonWrapper>

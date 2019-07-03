@@ -3,13 +3,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { PropTypes } from 'prop-types'
 import { Title, Menu, MenuItem, MenuLink } from "./style";
-import { storeUser } from '../../features/user/actions/index'
-import api from '../../services/Api'
+import api from '../../../src/services/Api'
+import { storeUser } from "../../features/user/actions/index"
+import * as contactService from '../../features/contacts/services/contacts'
+import * as transacionsService from '../../features/transactions/services/transactions'
 
 class Header extends Component {
 
-    componentDidMount(){
-        this.props.getUser()
+    componentDidMount() {
+        this.props.init()
     }
 
     render() {
@@ -28,16 +30,21 @@ class Header extends Component {
     }
 }
 
-const getUser = async (dispatch) => {
-    api.get('/users/1').then( res => dispatch(storeUser(res.data)))
+const init = async (dispatch) => {
+    let user = await api.get('/users/1').then((res) => res.data)
+    dispatch(storeUser(user))
+    contactService.getContacts(user.id, dispatch)
+    contactService.getUsers(user.id, dispatch)
+    transacionsService.getTransactions(user.accountId, dispatch)
 }
+
 
 const mapStateToProps = state => ({
     user: state.user,
 })
 
 const mapDispatchToProps = dispatch => ({
-    getUser: () => getUser(dispatch),
+    init: () => init(dispatch),
 
 })
 
@@ -47,6 +54,6 @@ export default connect(
 )(Header)
 
 Header.propTypes = {
-    getUser: PropTypes.func,
+    init: PropTypes.func,
     user: PropTypes.object
 }
