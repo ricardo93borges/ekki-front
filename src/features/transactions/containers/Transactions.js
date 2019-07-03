@@ -81,14 +81,11 @@ class Transactions extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    console.log(state)
-    return {
-        user: state.user,
-        contacts: state.contacts.contacts,
-        transactions: state.transactions.transactions,
-    }
-}
+const mapStateToProps = state => ({
+    user: state.user,
+    contacts: state.contacts.contacts,
+    transactions: state.transactions.transactions,
+})
 
 const mapDispatchToProps = dispatch => ({
     getTransactions: (userId) => services.getTransactions(userId, dispatch),

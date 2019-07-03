@@ -7,7 +7,7 @@ export const initialState = {
 
 const transactions = createReducer(initialState, {
     [STORE_TRANSACTIONS]: (state, action) => ({
-        transactions: action.payload.transactions.transactions,
+        transactions: action.payload.transactions
     }),
     [STORE_TRANSACTION]: (state, action) => {
         const transactions = state.transactions.slice()

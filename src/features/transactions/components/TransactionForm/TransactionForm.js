@@ -107,7 +107,6 @@ class TransactionsForm extends Component {
                             <label htmlFor='select-contacts'>Transferir para </label>
 
                             <select
-                                defaultValue={0}
                                 value={this.state.accountId}
                                 id='select-contacts'
                                 onChange={e => this.setState({ accountId: e.target.value })}>
