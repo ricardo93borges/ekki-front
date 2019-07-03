@@ -7,5 +7,5 @@ export const storeTransaction = (transaction) => ({
 
 export const storeTransactions = (transactions) => ({
     type: STORE_TRANSACTIONS,
-    payload: { transactions: transactions.transactions }
+    payload: { transactions: transactions.transactions, total: transactions.total }
 })

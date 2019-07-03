@@ -35,7 +35,7 @@ const init = async (dispatch) => {
     dispatch(storeUser(user))
     contactService.getContacts(user.id, dispatch)
     contactService.getUsers(user.id, dispatch)
-    transacionsService.getTransactions(user.accountId, dispatch)
+    transacionsService.getTransactions(user.accountId, 1, dispatch)
 }
 
 

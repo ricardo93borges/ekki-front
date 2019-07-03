@@ -1,10 +1,10 @@
 import api from '../../../services/Api'
 import * as actions from "../actions/index"
 
-export const getTransactions = async (accountId, dispatch) => {
-    api.get(`/transactions/${accountId}/1`).then(res => {
-        dispatch(actions.storeTransactions(res.data))
-    })
+export const getTransactions = async (accountId, page = 1, dispatch) => {
+    const transactions = await api.get(`/transactions/${accountId}/${page}`).then(res => res.data)
+    dispatch(actions.storeTransactions(transactions))
+    return transactions
 }
 
 export const addTransaction = async (fromAccountId, toAccountId, amount, dispatch) => {

@@ -22,8 +22,7 @@ class TransactionsForm extends Component {
     }
 
     checkFunds = async () => {
-
-        if (this.state.accountId === null) {
+        if (this.state.accountId === 0) {
             this.setState({ invalid: true })
             return
         } else {

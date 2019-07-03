@@ -5,6 +5,7 @@ import '../styles/style.js'
 import Modal from "../../../components/modal/modal";
 import TransactionForm from '../components/TransactionForm/TransactionForm';
 import * as services from '../services/transactions'
+import Paginator from '../../../components/paginator/paginator.js';
 
 class Transactions extends Component {
 
@@ -27,6 +28,11 @@ class Transactions extends Component {
     formatDate = (date) => {
         let d = new Date(date)
         return `${d.getDay()}/${d.getMonth()}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`
+    }
+
+    getTransactions = async (page) => {
+        const transactions = await this.props.getTransactions(this.props.user.accountId, page)
+        return transactions.transactions.length
     }
 
     render() {
@@ -67,6 +73,8 @@ class Transactions extends Component {
                     </div>
                 </section>
 
+                <Paginator fetch={this.getTransactions} perPage={10} />
+
                 <Modal display={this.state.modalDisplay}>
                     <TransactionForm
                         closeModal={() => this.setState({ modalDisplay: 'none' })}
@@ -85,10 +93,11 @@ const mapStateToProps = state => ({
     user: state.user,
     contacts: state.contacts.contacts,
     transactions: state.transactions.transactions,
+    total: state.transactions.total,
 })
 
 const mapDispatchToProps = dispatch => ({
-    getTransactions: (userId) => services.getTransactions(userId, dispatch),
+    getTransactions: (userId, page) => services.getTransactions(userId, page, dispatch),
     addTransaction: (fromAccountId, toAccountId, amount) => services.addTransaction(fromAccountId, toAccountId, amount, dispatch),
 
 })
@@ -102,5 +111,6 @@ Transactions.propTypes = {
     getTransactions: PropTypes.func,
     addTransaction: PropTypes.func,
     user: PropTypes.object,
-    contacts: PropTypes.array
+    contacts: PropTypes.array,
+    total: PropTypes.number,
 }
