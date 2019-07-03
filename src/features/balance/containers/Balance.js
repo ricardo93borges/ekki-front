@@ -10,12 +10,21 @@ class Balance extends Component {
 
     render() {
         return (
-            <StyledBalance className='row'>
-                <Content className="column">
-                    <Digits fontSize='5em'>1000,</Digits>
-                    <Digits fontSize='2em'>00</Digits>
-                </Content>
-            </StyledBalance>
+            <>
+                <StyledBalance className='row'>
+                    <Content className="column">
+                        <Digits fontSize='1.5em'>R$</Digits>
+                        <Digits fontSize='5em'>1000,</Digits>
+                        <Digits fontSize='2em'>00</Digits>
+                        <div className='row'>
+                            <div className='column'>
+                                Limite: R$ 500
+                            </div>
+                        </div>
+                    </Content>
+
+                </StyledBalance>
+            </>
         )
     }
 }
