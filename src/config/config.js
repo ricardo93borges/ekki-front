@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
-const PROTOCOL = 'http'
-const DOMAIN = 'localhost:3000'
+const PROTOCOL = 'https'
+const DOMAIN = 'ekki-bank-api.herokuapp.com/users'
 
 module.exports = {
     API_URL: `${PROTOCOL}://${DOMAIN}`,
