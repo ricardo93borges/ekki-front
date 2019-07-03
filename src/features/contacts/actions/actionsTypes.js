@@ -1,3 +1,6 @@
 export const STORE_CONTACT = 'contacts:STORE_CONTACT'
+export const REMOVE_CONTACT = 'contacts:REMOVE_CONTACT'
 export const STORE_CONTACTS = 'contacts:STORE_CONTACTS'
 export const STORE_USERS = 'contacts:STORE_USERS'
+export const STORE_USER = 'contacts:STORE_USER'
+export const REMOVE_USER = 'contacts:REMOVE_USER'

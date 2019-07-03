@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { PropTypes } from 'prop-types'
 import '../styles/style.js'
 import Modal from "../../../components/modal/modal";
-import api from '../../../services/Api'
-import { storeBalance } from '../actions/index'
+//import api from '../../../services/Api'
+//import { storeBalance } from '../actions/index'
 //import {  } from '../styles/style.js';
 import TransactionForm from '../components/TransactionForm/TransactionForm';
 
@@ -51,11 +51,11 @@ class Transactions extends Component {
                 </section>
 
                 <Modal display={this.state.modalDisplay}>
-                    <TransactionForm 
-                        closeModal={() => this.setState({ modalDisplay: 'none' })} 
-                        processing={false} 
+                    <TransactionForm
+                        closeModal={() => this.setState({ modalDisplay: 'none' })}
+                        processing={false}
                         warnLimitUse={false}
-                        contacts={[{accountId:1, name:'Ricardo Borges'}]}
+                        contacts={[{ accountId: 1, name: 'Ricardo Borges' }]}
                     />
                 </Modal>
             </>

@@ -11,15 +11,15 @@ class TransactionsForm extends Component {
         super(props)
 
         this.state = {
-            accountId:null,
-            amount:null
+            accountId: null,
+            amount: null
         }
     }
 
     checkFunds = async () => {
         console.log('checkFunds')
     }
-    
+
     send = async () => {
         console.log('send')
     }
@@ -29,23 +29,23 @@ class TransactionsForm extends Component {
             <>
                 <FormTitle>Transferência</FormTitle>
 
-                {this.props.warnLimitUse ? 
+                {this.props.warnLimitUse ?
                     <div className='row'>
-                    <div className='column'>
-                        <p style={{ textAlign: 'center' }}>
-                            Será utilizado seu limite, pois você não possui 
-                            saldo sufuciente para esta transação, deseja prosseguir?
+                        <div className='column'>
+                            <p style={{ textAlign: 'center' }}>
+                                Será utilizado seu limite, pois você não possui
+                                saldo sufuciente para esta transação, deseja prosseguir?
                         </p>
-                        <button className='button button-outline float-left' onClick={() => this.props.closeModal()}>Cancelar</button>
-                        <button className='button float-right' onClick={() => this.send()} >Prosseguir</button>
-                        </div>               
+                            <button className='button button-outline float-left' onClick={() => this.props.closeModal()}>Cancelar</button>
+                            <button className='button float-right' onClick={() => this.send()} >Prosseguir</button>
+                        </div>
                     </div>
-                    :                 
+                    :
                     <div className='row'>
                         <div className='column'>
                             <label htmlFor='select-contacts'>Transferir para</label>
                             <select id='select-contacts'>
-                                {this.props.contacts.map( contact => <option value={contact.accountId}>{contact.name}</option>)}
+                                {this.props.contacts.map(contact => <option key={contact.accountId} value={contact.accountId}>{contact.name}</option>)}
                             </select>
 
                             <label htmlFor='amount'>Valor</label>
