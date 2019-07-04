@@ -32,7 +32,7 @@ class Paginator extends Component {
         let page = this.state.page
         this.setState({ page: page + 1 }, async () => {
             const total = await this.props.fetch(page + 1)
-            if (total < this.props.perPage) {
+            if (total < (this.props.perPage-1)) {
                 this.setState({ nextDisabled: true, previousDisabled: false })
             } else {
                 this.setState({ nextDisabled: false })

@@ -31,8 +31,12 @@ class Transactions extends Component {
     }
 
     getTransactions = async (page) => {
-        const transactions = await this.props.getTransactions(this.props.user.accountId, page)
-        return transactions.transactions.length
+        if(this.props.total > 10){
+            const transactions = await this.props.getTransactions(this.props.user.accountId, page)
+            return transactions.transactions.length
+        }else{
+            return this.props.transactions.total
+        }
     }
 
     render() {
