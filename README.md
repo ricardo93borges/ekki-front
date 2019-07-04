@@ -7,6 +7,15 @@
 
 ### 🏠 [Homepage](https://ekki-ricardo-borges.herokuapp.com)
 
+
+## Dependencies
+
+```sh
+Node 10.16.0
+Yarn 1.16.0
+Npm 6.9.0
+```
+
 ## Install
 
 ```sh
