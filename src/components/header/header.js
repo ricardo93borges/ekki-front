@@ -31,7 +31,7 @@ class Header extends Component {
 }
 
 const init = async (dispatch) => {
-    let user = await api.get('/users/1').then((res) => res.data)
+    const user = await api.get('/users/1').then((res) => res.data)
     dispatch(storeUser(user))
     contactService.getContacts(user.id, dispatch)
     contactService.getUsers(user.id, dispatch)

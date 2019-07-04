@@ -17,8 +17,8 @@ class Transactions extends Component {
         }
     }
 
-    addTransaction = (accountId, amount) => {
-        this.props.addTransaction(this.props.user.accountId, accountId, amount)
+    addTransaction = async (accountId, amount) => {
+        await this.props.addTransaction(this.props.user.accountId, accountId, amount)
     }
 
     checkFunds = (amount) => {

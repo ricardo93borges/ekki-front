@@ -77,7 +77,7 @@ class TransactionsForm extends Component {
                         <div className='column'>
                             <p style={{ textAlign: 'center' }}>
                                 Será utilizado R$ {this.state.limitUsage} do seu limite, pois você não possui
-                                saldo sufuciente para esta transação, deseja prosseguir?
+                                saldo suficiente para esta transação, deseja prosseguir?
                         </p>
                             <button className='button button-outline float-left' onClick={() => this.closeModal()}>Cancelar</button>
                             <button

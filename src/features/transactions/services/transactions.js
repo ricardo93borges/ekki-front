@@ -1,5 +1,6 @@
 import api from '../../../services/Api'
 import * as actions from "../actions/index"
+import * as userService from '../../user/services/user'
 
 export const getTransactions = async (accountId, page = 1, dispatch) => {
     const transactions = await api.get(`/transactions/${accountId}/${page}`).then(res => res.data)
@@ -8,8 +9,9 @@ export const getTransactions = async (accountId, page = 1, dispatch) => {
 }
 
 export const addTransaction = async (fromAccountId, toAccountId, amount, dispatch) => {
-    api.post(`/transactions`, { fromAccountId, toAccountId, amount }).then(res => {
-        getTransactions(fromAccountId, dispatch)
+    api.post(`/transactions`, { fromAccountId, toAccountId, amount }).then(async (res) => {
+        getTransactions(fromAccountId, 1, dispatch)
+        userService.getUser(1, dispatch)
     })
 }
 
