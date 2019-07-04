@@ -53,21 +53,21 @@ describe('Transactions reducer tests', () => {
     it('should store a transaction', () => {
         const payload = { transaction }
 
-        const before = { ...initialState, transactions: [transaction] }
+        const before = { ...initialState, transactions: [transaction], total:1 }
         const action = { type: STORE_TRANSACTION, payload }
         const state = transactions(before, action)
-        const after = { ...initialState, transactions: [transaction, transaction] }
+        const after = { ...initialState, transactions: [transaction, transaction], total:2 }
 
         expect(state).to.be.deep.equal(after)
     })
 
     it('should store transactions', () => {
-        const payload = { transactions: [transaction, transaction] }
+        const payload = { transactions: [transaction, transaction], total:2}
 
         const before = initialState
         const action = { type: STORE_TRANSACTIONS, payload }
         const state = transactions(before, action)
-        const after = { ...initialState, transactions: [transaction, transaction] }
+        const after = { ...initialState, transactions: [transaction, transaction], total: 2 }
 
         expect(state).to.be.deep.equal(after)
     })
