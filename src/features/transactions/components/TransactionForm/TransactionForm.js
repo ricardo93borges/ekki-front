@@ -126,6 +126,7 @@ class TransactionsForm extends Component {
                             <label htmlFor='amount'>Valor</label>
 
                             <CurrencyInput
+                                type='tel'
                                 value={this.state.amount}
                                 decimalSeparator="."
                                 thousandSeparator=","

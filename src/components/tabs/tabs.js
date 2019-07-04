@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
-import { Tab } from "./style";
+import { TabsWrapper, Tab } from "./style";
 
 class Tabs extends Component {
 
@@ -15,14 +15,14 @@ class Tabs extends Component {
     render() {
         return (
             <>
-                <div className="row" style={{ marginTop: '30px', marginBottom: '20px' }}>
+                <TabsWrapper>
                     <Tab onClick={() => this.setState({ active: 0 })} active={this.state.active === 0 ? true : false}>
                         Transações
                     </Tab>
                     <Tab onClick={() => this.setState({ active: 1 })} active={this.state.active === 1 ? true : false}>
                         Contatos
                     </Tab>
-                </div>
+                </TabsWrapper>
                 {this.props.children[this.state.active]}
             </>
         );
