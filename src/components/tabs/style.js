@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const TabsWrapper = styled.a`
+export const TabsWrapper = styled.div`
     float:left;
     width: 100%;
     margin-top: 30px;
